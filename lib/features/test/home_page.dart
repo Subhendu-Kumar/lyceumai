@@ -193,8 +193,8 @@ class _HomePageState extends State<HomePage> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Shimmer.fromColors(
-            baseColor: Colors.purple[100]!,
-            highlightColor: Colors.purple[50]!,
+            baseColor: Colors.purple[50]!,
+            highlightColor: Colors.grey[200]!,
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(height: 18, width: 120, color: Colors.purple[100]),
+                  Container(height: 18, width: 120, color: Colors.purple[50]),
                   const SizedBox(height: 10),
                   Container(
                     height: 14,
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.purple[100],
                   ),
                   const SizedBox(height: 6),
-                  Container(height: 14, width: 200, color: Colors.purple[100]),
+                  Container(height: 14, width: 200, color: Colors.purple[50]),
                 ],
               ),
             ),
