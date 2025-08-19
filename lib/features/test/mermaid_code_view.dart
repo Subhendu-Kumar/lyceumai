@@ -15,7 +15,7 @@ class _MermaidCodeViewState extends State<MermaidCodeView> {
   void initState() {
     super.initState();
     String rawCode =
-        "pie\n    title Assumed Population of India (in Billions)\n    \"2022\" : 1.41\n    \"2023\" : 1.42\n    \"2024\" : 1.43";
+        "flowchart TD\n    subgraph CPU Instruction Cycle\n        Start((Start)) --> Fetch;\n\n        Fetch[\"1. Fetch Instruction<br/>(from memory address in PC)\"]\n        style Fetch fill:#f9f,stroke:#333,stroke-width:2px\n\n        Decode[\"2. Decode Instruction<br/>(in Control Unit)\"]\n        style Decode fill:#bbf,stroke:#333,stroke-width:2px\n\n        Execute[\"3. Execute Instruction<br/>(in ALU/FPU)\"]\n        style Execute fill:#ccf,stroke:#333,stroke-width:2px\n\n        Store[\"4. Store Result<br/>(in register or memory)\"]\n        style Store fill:#dfd,stroke:#333,stroke-width:2px\n\n        Fetch --> Decode;\n        Decode --> Execute;\n        Execute --> Store;\n        Store --> InterruptCheck{Check for Interrupts};\n\n        InterruptCheck -- \"No\" --> Fetch;\n        InterruptCheck -- \"Yes\" --> HandleInterrupt[Service Interrupt Routine];\n        HandleInterrupt --> Fetch;\n    end";
 
     // Step 1: Replace `\n` with real line breaks
     String formatted = rawCode.replaceAll("\\n", "\n");
@@ -23,8 +23,17 @@ class _MermaidCodeViewState extends State<MermaidCodeView> {
     // Step 2: Replace `\"` with actual quotes
     formatted = formatted.replaceAll("\\\"", "\"");
 
+    formatted = formatted.replaceAllMapped(RegExp(r'\[.*?\]'), (match) {
+      String inside = match.group(0)!;
+      // Remove ( ... ) inside the brackets
+      inside = inside.replaceAll(RegExp(r'\(.*?\)'), '');
+      return inside;
+    });
+
     // Optional: trim leading/trailing spaces
     formatted = formatted.trim();
+
+    print(formatted);
 
     final String mermaidHtml =
         """
@@ -41,14 +50,10 @@ class _MermaidCodeViewState extends State<MermaidCodeView> {
         </script>
     </head>
 
-    <body style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 70vh; width: 100%;">
+    <body style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100%;">
         <div class="mermaid">
            $formatted
         </div>
-        <p style="margin-top: 20px; font-size: 16px; font-family: sans-serif; text-align: center;">
-        This is a pie chart representing the assumed population of India over three consecutive years. 
-        The values are illustrative estimates in billions, showing the relative population size for each year.
-    </p>
     </body>
 
     </html>
@@ -56,7 +61,8 @@ class _MermaidCodeViewState extends State<MermaidCodeView> {
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadHtmlString(mermaidHtml);
+      ..loadHtmlString(mermaidHtml)
+      ..enableZoom(true);
   }
 
   @override
