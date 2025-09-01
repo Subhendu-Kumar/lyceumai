@@ -74,7 +74,10 @@ class MainHomePage extends StatefulWidget {
 class _MainHomePageState extends State<MainHomePage> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _pages = <Widget>[HomePage(), MermaidCodeView()];
+  static const List<Widget> _pages = <Widget>[
+    HomePage(),
+    ChatScreen(),
+  ]; // MermaidCodeView()
 
   void _onItemTapped(int index) {
     setState(() {
