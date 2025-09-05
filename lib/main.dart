@@ -4,15 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:lyceumai/features/test/home_page.dart';
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
 import 'package:lyceumai/features/auth/pages/get_started_page.dart';
-import 'package:lyceumai/features/test/home_page.dart';
-import 'package:lyceumai/features/test/mermaid_code_view.dart';
+import 'package:lyceumai/features/home/cubit/class_cubit.dart';
+import 'package:lyceumai/features/home/pages/home_page.dart';
+// import 'package:lyceumai/features/test/home_page.dart';
+// import 'package:lyceumai/features/test/mermaid_code_view.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => AuthCubit())],
+      providers: [
+        BlocProvider(create: (_) => AuthCubit()),
+        BlocProvider(create: (_) => ClassCubit()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -46,7 +51,7 @@ class _MyAppState extends State<MyApp> {
             return const LoadingPage();
           }
           if (state is AuthLoggedIn) {
-            return const MainHomePage();
+            return const HomePage();
           }
           return const GetStartedPage();
         },
@@ -64,42 +69,42 @@ class LoadingPage extends StatelessWidget {
   }
 }
 
-class MainHomePage extends StatefulWidget {
-  const MainHomePage({super.key});
+// class MainHomePage extends StatefulWidget {
+//   const MainHomePage({super.key});
 
-  @override
-  State<MainHomePage> createState() => _MainHomePageState();
-}
+//   @override
+//   State<MainHomePage> createState() => _MainHomePageState();
+// }
 
-class _MainHomePageState extends State<MainHomePage> {
-  int _selectedIndex = 0;
+// class _MainHomePageState extends State<MainHomePage> {
+//   int _selectedIndex = 0;
 
-  static const List<Widget> _pages = <Widget>[
-    HomePage(),
-    ChatScreen(),
-  ]; // MermaidCodeView()
+//   static const List<Widget> _pages = <Widget>[
+//     HomePage(),
+//     ChatScreen(),
+//   ]; // MermaidCodeView()
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+//   void _onItemTapped(int index) {
+//     setState(() {
+//       _selectedIndex = index;
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.auto_graph),
-            label: "Charts",
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: _pages[_selectedIndex],
+//       bottomNavigationBar: BottomNavigationBar(
+//         currentIndex: _selectedIndex,
+//         onTap: _onItemTapped,
+//         items: const [
+//           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.auto_graph),
+//             label: "Charts",
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
