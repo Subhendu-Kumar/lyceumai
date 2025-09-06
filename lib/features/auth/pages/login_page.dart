@@ -1,15 +1,9 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-// import 'package:lyceumai/features/home/pages/home_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
-// import 'package:lyceumai/features/auth/pages/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
-  static MaterialPageRoute route() =>
-      MaterialPageRoute(builder: (context) => const LoginPage());
   const LoginPage({super.key});
 
   @override
@@ -53,11 +47,6 @@ class _LoginPageState extends State<LoginPage> {
               context,
             ).showSnackBar(SnackBar(content: Text(state.error)));
           } else if (state is AuthLoggedIn) {
-            // Navigator.pushAndRemoveUntil(
-            //   context,
-            //   HomePage.route(),
-            //   (_) => false,
-            // );
             context.go('/home');
           }
         },
@@ -113,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(100),
                       ),
                       elevation: 5,
-                      shadowColor: Colors.blueAccent.withOpacity(0.4),
+                      shadowColor: Colors.blueAccent,
                     ),
                     child: const Text(
                       'Sign In',
@@ -129,7 +118,6 @@ class _LoginPageState extends State<LoginPage> {
                   Center(
                     child: GestureDetector(
                       onTap: () {
-                        // Navigator.of(context).push(SignupPage.route());
                         context.push('/signup');
                       },
                       child: RichText(

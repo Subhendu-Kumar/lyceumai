@@ -11,6 +11,6 @@ class SyllabusPage extends StatefulWidget {
 class _SyllabusPageState extends State<SyllabusPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Center(child: Text('Syllabus Page for class ID: ${widget.id}'));
   }
 }

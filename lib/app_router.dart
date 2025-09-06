@@ -1,16 +1,16 @@
 import 'package:go_router/go_router.dart';
+import 'package:lyceumai/features/home/pages/home_page.dart';
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
-import 'package:lyceumai/features/auth/pages/get_started_page.dart';
 import 'package:lyceumai/features/auth/pages/login_page.dart';
 import 'package:lyceumai/features/auth/pages/signup_page.dart';
-import 'package:lyceumai/features/classroom/pages/classroom_materials_page.dart';
-import 'package:lyceumai/features/classroom/pages/quizzes_page.dart';
-import 'package:lyceumai/features/home/pages/home_page.dart';
 import 'package:lyceumai/features/home/pages/join_class_page.dart';
+import 'package:lyceumai/features/auth/pages/get_started_page.dart';
+import 'package:lyceumai/features/classroom/pages/quizzes_page.dart';
+import "package:lyceumai/features/classroom/pages/syllabus_page.dart";
+import "package:lyceumai/features/classroom/pages/assignments_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_layout_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_overview_page.dart";
-import "package:lyceumai/features/classroom/pages/assignments_page.dart";
-import "package:lyceumai/features/classroom/pages/syllabus_page.dart";
+import 'package:lyceumai/features/classroom/pages/classroom_materials_page.dart';
 
 class AppRouter {
   static GoRouter router(AuthCubit authCubit) {
@@ -19,7 +19,6 @@ class AppRouter {
       redirect: (context, state) {
         final authState = authCubit.state;
         final isAuth = authState is AuthLoggedIn;
-
         if (!isAuth) {
           // not logged in → allow only auth pages + '/'
           if (state.matchedLocation.startsWith('/home') ||

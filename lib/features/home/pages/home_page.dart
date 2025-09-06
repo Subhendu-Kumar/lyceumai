@@ -1,18 +1,13 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:lyceumai/core/utils.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lyceumai/models/user_model.dart';
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
 import 'package:lyceumai/features/home/cubit/class_cubit.dart';
-// import 'package:lyceumai/features/home/pages/join_class_page.dart';
 
 class HomePage extends StatefulWidget {
-  static MaterialPageRoute route() =>
-      MaterialPageRoute(builder: (context) => const HomePage());
   const HomePage({super.key});
 
   @override
@@ -118,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                                 gradient: LinearGradient(
                                   colors: [
                                     Colors.transparent,
-                                    Colors.black.withOpacity(0.7),
+                                    Colors.black.withValues(alpha: 0.7),
                                   ],
                                   begin: Alignment.bottomLeft,
                                   end: Alignment.topRight,
@@ -195,7 +190,6 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
-                          // Navigator.of(context).push(JoinClassPage.route());
                           context.push("/home/joinclass");
                         },
                         style: ElevatedButton.styleFrom(
@@ -215,7 +209,6 @@ class _HomePageState extends State<HomePage> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              // Navigator.of(context).push(JoinClassPage.route());
               context.push("/home/joinclass");
             },
             backgroundColor: Colors.blue[100],

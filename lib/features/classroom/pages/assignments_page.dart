@@ -11,6 +11,6 @@ class AssignmentsPage extends StatefulWidget {
 class _AssignmentsPageState extends State<AssignmentsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Center(child: Text('Assignments Page for class ID: ${widget.id}'));
   }
 }

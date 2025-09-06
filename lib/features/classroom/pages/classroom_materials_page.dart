@@ -11,6 +11,6 @@ class ClassroomMaterialsPage extends StatefulWidget {
 class _ClassroomMaterialsPageState extends State<ClassroomMaterialsPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Center(child: Text('Materials Page for class ID: ${widget.id}'));
   }
 }

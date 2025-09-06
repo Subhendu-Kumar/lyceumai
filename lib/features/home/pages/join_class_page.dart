@@ -4,8 +4,6 @@ import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
 import 'package:lyceumai/features/home/cubit/class_cubit.dart';
 
 class JoinClassPage extends StatefulWidget {
-  static MaterialPageRoute route() =>
-      MaterialPageRoute(builder: (context) => const JoinClassPage());
   const JoinClassPage({super.key});
 
   @override

@@ -1,14 +1,9 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
-// import 'package:lyceumai/features/auth/pages/login_page.dart';
 
 class SignupPage extends StatefulWidget {
-  static MaterialPageRoute route() =>
-      MaterialPageRoute(builder: (context) => const SignupPage());
   const SignupPage({super.key});
 
   @override
@@ -60,11 +55,6 @@ class _SignupPageState extends State<SignupPage> {
               ..showSnackBar(
                 const SnackBar(content: Text("Account created! Login NOW!")),
               );
-            // Navigator.pushAndRemoveUntil(
-            //   context,
-            //   LoginPage.route(),
-            //   (_) => false,
-            // );
             context.push('/signin');
           }
         },
@@ -133,7 +123,7 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(100),
                       ),
                       elevation: 5,
-                      shadowColor: Colors.blueAccent.withOpacity(0.4),
+                      shadowColor: Colors.blueAccent,
                     ),
                     child: const Text(
                       'Sign Up',
@@ -149,7 +139,6 @@ class _SignupPageState extends State<SignupPage> {
                   Center(
                     child: GestureDetector(
                       onTap: () {
-                        // Navigator.of(context).push(LoginPage.route());
                         context.push('/signin');
                       },
                       child: RichText(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-// import 'package:lyceumai/features/auth/pages/login_page.dart';
-// import 'package:lyceumai/features/auth/pages/signup_page.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -73,7 +71,6 @@ class GetStartedPage extends StatelessWidget {
                         shadowColor: Colors.black26,
                       ),
                       onPressed: () {
-                        // Navigator.of(context).push(SignupPage.route());
                         context.push('/signup');
                       },
                       child: const Text(
@@ -89,7 +86,6 @@ class GetStartedPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.of(context).push(LoginPage.route());
                       context.push('/signin');
                     },
                     child: RichText(

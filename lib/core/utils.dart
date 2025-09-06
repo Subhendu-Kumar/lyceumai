@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:file_picker/file_picker.dart';
 
 Future<File?> pickAudio() async {
   try {
@@ -17,8 +17,6 @@ Future<File?> pickAudio() async {
 }
 
 String formatDate(String isoString) {
-  DateTime dateTime = DateTime.parse(
-    isoString,
-  ).toLocal(); // parse & convert to local
+  DateTime dateTime = DateTime.parse(isoString).toLocal();
   return DateFormat('dd MMM yyyy, hh:mm a').format(dateTime);
 }
