@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+// import 'package:lyceumai/features/home/pages/home_page.dart';
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
-import 'package:lyceumai/features/auth/pages/signup_page.dart';
-import 'package:lyceumai/features/test/home_page.dart';
+// import 'package:lyceumai/features/auth/pages/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   static MaterialPageRoute route() =>
@@ -16,9 +17,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -39,6 +40,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Sign In'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+      ),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
@@ -46,33 +53,32 @@ class _LoginPageState extends State<LoginPage> {
               context,
             ).showSnackBar(SnackBar(content: Text(state.error)));
           } else if (state is AuthLoggedIn) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              HomePage.route(),
-              (_) => false,
-            );
+            // Navigator.pushAndRemoveUntil(
+            //   context,
+            //   HomePage.route(),
+            //   (_) => false,
+            // );
+            context.go('/home');
           }
         },
         builder: (context, state) {
           if (state is AuthLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
           return Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(24),
             child: Form(
               key: _formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Login.",
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 30),
+                  Text("Email", style: TextStyle(fontSize: 16)),
+                  const SizedBox(height: 8),
                   TextFormField(
                     controller: _emailController,
-                    decoration: const InputDecoration(hintText: 'Email'),
+                    decoration: const InputDecoration(
+                      hintText: 'example@gmail.com',
+                    ),
                     validator: (value) {
                       if (value == null ||
                           value.trim().isEmpty ||
@@ -82,10 +88,12 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
+                  Text("Password", style: TextStyle(fontSize: 16)),
+                  const SizedBox(height: 8),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(hintText: 'Password'),
+                    decoration: const InputDecoration(hintText: '********'),
                     validator: (value) {
                       if (value == null ||
                           value.trim().isEmpty ||
@@ -99,15 +107,16 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     onPressed: loginUser,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
+                      minimumSize: Size(double.infinity, 52),
+                      backgroundColor: Colors.blue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      elevation: 5, // Adds subtle shadow
-                      shadowColor: Colors.deepPurpleAccent.withOpacity(0.4),
+                      elevation: 5,
+                      shadowColor: Colors.blueAccent.withOpacity(0.4),
                     ),
                     child: const Text(
-                      'LOGIN',
+                      'Sign In',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -117,20 +126,23 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(SignupPage.route());
-                    },
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Don\'t have an account? ',
-                        style: Theme.of(context).textTheme.titleMedium,
-                        children: const [
-                          TextSpan(
-                            text: 'Sign Up',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigator.of(context).push(SignupPage.route());
+                        context.push('/signup');
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Don\'t have an account? ',
+                          style: Theme.of(context).textTheme.titleMedium,
+                          children: const [
+                            TextSpan(
+                              text: 'Sign Up',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -139,6 +151,33 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         },
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 70),
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: const TextStyle(fontSize: 14, color: Colors.black54),
+            children: [
+              const TextSpan(text: "By continuing, you agree to our "),
+              TextSpan(
+                text: "Terms & Conditions",
+                style: const TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              const TextSpan(text: " and acknowledge to our "),
+              TextSpan(
+                text: "Privacy Policy",
+                style: const TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

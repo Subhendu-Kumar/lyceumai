@@ -13,7 +13,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void getUserData() async {
     try {
-      emit(AuthLoading());
+      emit(AuthLoadingInitial());
       final userModel = await authRemoteRepository.getUserData();
       if (userModel != null) {
         if (userModel.token.isNotEmpty) {

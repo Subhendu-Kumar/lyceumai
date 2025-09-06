@@ -1,11 +1,18 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lyceumai/core/utils.dart';
-import 'package:lyceumai/features/home/cubit/class_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lyceumai/models/user_model.dart';
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
+import 'package:lyceumai/features/home/cubit/class_cubit.dart';
+// import 'package:lyceumai/features/home/pages/join_class_page.dart';
 
 class HomePage extends StatefulWidget {
+  static MaterialPageRoute route() =>
+      MaterialPageRoute(builder: (context) => const HomePage());
   const HomePage({super.key});
 
   @override
@@ -16,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<ClassCubit>().getEnrolledClasses(); // fetch classes on load
+    context.read<ClassCubit>().getEnrolledClasses();
   }
 
   @override
@@ -60,7 +67,24 @@ class _HomePageState extends State<HomePage> {
           body: BlocBuilder<ClassCubit, ClassState>(
             builder: (context, state) {
               if (state is ClassLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey[100]!,
+                      highlightColor: Colors.grey[50]!,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        margin: const EdgeInsets.only(bottom: 12),
+                        clipBehavior: Clip.antiAlias,
+                        child: Container(height: 160, color: Colors.grey[100]),
+                      ),
+                    );
+                  },
+                );
               } else if (state is ClassLoaded) {
                 return ListView.builder(
                   padding: const EdgeInsets.all(16),
@@ -72,10 +96,9 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       margin: const EdgeInsets.only(bottom: 12),
-                      clipBehavior: Clip.antiAlias, // keeps rounded corners
+                      clipBehavior: Clip.antiAlias,
                       child: Stack(
                         children: [
-                          // Background image
                           Container(
                             height: 160,
                             decoration: const BoxDecoration(
@@ -85,7 +108,6 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          // Dark overlay for readability
                           Container(
                             height: 160,
                             decoration: BoxDecoration(
@@ -99,11 +121,10 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          // Class details (your data)
                           Positioned(
                             left: 16,
                             top: 16,
-                            right: 48, // leave space for menu button
+                            right: 48,
                             child: Text(
                               classItem.name,
                               style: const TextStyle(
@@ -135,7 +156,6 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          // Menu icon
                           Positioned(
                             right: 8,
                             top: 8,
@@ -145,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                // Handle menu actions
+                                // Show menu options
                               },
                             ),
                           ),
@@ -155,7 +175,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 );
               } else if (state is ClassEmpty) {
-                // Default screen if no classes
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +189,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // Navigator.of(context).push(JoinClassPage.route());
+                          context.push("/home/joinclass");
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
@@ -187,7 +209,10 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              // Navigator.of(context).push(JoinClassPage.route());
+              context.push("/home/joinclass");
+            },
             backgroundColor: Colors.blue[100],
             child: const Icon(Icons.add, color: Colors.black87),
           ),
@@ -200,36 +225,89 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (_) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+        return Dialog(
+          insetPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 40,
           ),
-          content: Column(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircleAvatar(
-                backgroundColor: Colors.orange,
-                radius: 30,
-                child: const Icon(Icons.person, color: Colors.white, size: 30),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                user.name,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.black12)),
+                ),
+                child: const Center(
+                  child: Text(
+                    "Lyceum AI",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(height: 6),
-              Text(
-                user.email,
-                style: const TextStyle(fontSize: 14, color: Colors.black54),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.orange,
+                      radius: 28,
+                      child: const Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user.name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          user.email,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Close"),
+              const Divider(height: 1),
+              InkWell(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  child: const Center(
+                    child: Text(
+                      "Close",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

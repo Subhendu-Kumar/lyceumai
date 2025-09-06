@@ -18,3 +18,10 @@ final class ClassError extends ClassState {
   final String error;
   ClassError(this.error);
 }
+
+final class ClassJoining extends ClassState {}
+
+final class ClassJoined extends ClassState {
+  final String message;
+  ClassJoined(this.message);
+}

@@ -22,4 +22,15 @@ class ClassCubit extends Cubit<ClassState> {
       emit(ClassError(e.toString()));
     }
   }
+
+  void joinClass(String code) async {
+    try {
+      emit(ClassJoining());
+      final message = await homeClassRemoteRepository.joinClass(code);
+      emit(ClassJoined(message));
+      getEnrolledClasses();
+    } catch (e) {
+      emit(ClassError(e.toString()));
+    }
+  }
 }

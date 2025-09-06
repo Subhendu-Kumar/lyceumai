@@ -30,4 +30,27 @@ class HomeClassRemoteRepository {
       throw e.toString();
     }
   }
+
+  Future<String> joinClass(String code) async {
+    try {
+      final token = await spService.getToken();
+      if (token == null) {
+        throw "No Token Found ";
+      }
+      final res = await http.post(
+        Uri.parse('${ServerConstant.serverURL}/class/enroll/s/$code'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (res.statusCode == 200) {
+        return jsonDecode(res.body)['detail'];
+      } else {
+        throw jsonDecode(res.body)['detail'];
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }
