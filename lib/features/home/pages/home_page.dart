@@ -91,85 +91,90 @@ class _HomePageState extends State<HomePage> {
                   itemCount: state.classes.length,
                   itemBuilder: (context, index) {
                     final classItem = state.classes[index];
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      margin: const EdgeInsets.only(bottom: 12),
-                      clipBehavior: Clip.antiAlias,
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 160,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/banner_class.jpg"),
-                                fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: () {
+                        context.push('/class/${classItem.id}');
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        margin: const EdgeInsets.only(bottom: 12),
+                        clipBehavior: Clip.antiAlias,
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 160,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/banner_class.jpg"),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                            height: 160,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.transparent,
-                                  Colors.black.withOpacity(0.7),
-                                ],
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
+                            Container(
+                              height: 160,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.transparent,
+                                    Colors.black.withOpacity(0.7),
+                                  ],
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            left: 16,
-                            top: 16,
-                            right: 48,
-                            child: Text(
-                              classItem.name,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                            Positioned(
+                              left: 16,
+                              top: 16,
+                              right: 48,
+                              child: Text(
+                                classItem.name,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            left: 16,
-                            bottom: 48,
-                            child: Text(
-                              "Code: ${classItem.code}",
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
+                            Positioned(
+                              left: 16,
+                              bottom: 48,
+                              child: Text(
+                                "Code: ${classItem.code}",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            left: 16,
-                            bottom: 28,
-                            child: Text(
-                              "Updated: ${formatDate(classItem.updatedAt)}",
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
+                            Positioned(
+                              left: 16,
+                              bottom: 28,
+                              child: Text(
+                                "Updated: ${formatDate(classItem.updatedAt)}",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            right: 8,
-                            top: 8,
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.more_vert,
-                                color: Colors.white,
+                            Positioned(
+                              right: 8,
+                              top: 8,
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.more_vert,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  // Show menu options
+                                },
                               ),
-                              onPressed: () {
-                                // Show menu options
-                              },
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   },

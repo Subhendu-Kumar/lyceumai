@@ -3,8 +3,14 @@ import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
 import 'package:lyceumai/features/auth/pages/get_started_page.dart';
 import 'package:lyceumai/features/auth/pages/login_page.dart';
 import 'package:lyceumai/features/auth/pages/signup_page.dart';
+import 'package:lyceumai/features/classroom/pages/classroom_materials_page.dart';
+import 'package:lyceumai/features/classroom/pages/quizzes_page.dart';
 import 'package:lyceumai/features/home/pages/home_page.dart';
 import 'package:lyceumai/features/home/pages/join_class_page.dart';
+import "package:lyceumai/features/classroom/pages/classroom_layout_page.dart";
+import "package:lyceumai/features/classroom/pages/classroom_overview_page.dart";
+import "package:lyceumai/features/classroom/pages/assignments_page.dart";
+import "package:lyceumai/features/classroom/pages/syllabus_page.dart";
 
 class AppRouter {
   static GoRouter router(AuthCubit authCubit) {
@@ -48,6 +54,49 @@ class AppRouter {
             GoRoute(
               path: 'joinclass',
               builder: (context, state) => const JoinClassPage(),
+            ),
+          ],
+        ),
+        ShellRoute(
+          builder: (context, state, child) {
+            final id = state.pathParameters['id']!;
+            return ClassroomLayoutPage(id: id, child: child);
+          },
+          routes: [
+            GoRoute(
+              path: '/class/:id',
+              pageBuilder: (context, state) {
+                final id = state.pathParameters['id']!;
+                return NoTransitionPage(child: ClassroomOverviewPage(id: id));
+              },
+            ),
+            GoRoute(
+              path: '/class/:id/assignments',
+              pageBuilder: (context, state) {
+                final id = state.pathParameters['id']!;
+                return NoTransitionPage(child: AssignmentsPage(id: id));
+              },
+            ),
+            GoRoute(
+              path: '/class/:id/syllabus',
+              pageBuilder: (context, state) {
+                final id = state.pathParameters['id']!;
+                return NoTransitionPage(child: SyllabusPage(id: id));
+              },
+            ),
+            GoRoute(
+              path: '/class/:id/materials',
+              pageBuilder: (context, state) {
+                final id = state.pathParameters['id']!;
+                return NoTransitionPage(child: ClassroomMaterialsPage(id: id));
+              },
+            ),
+            GoRoute(
+              path: '/class/:id/quizzes',
+              pageBuilder: (context, state) {
+                final id = state.pathParameters['id']!;
+                return NoTransitionPage(child: QuizzesPage(id: id));
+              },
             ),
           ],
         ),
