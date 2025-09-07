@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                         child: Stack(
                           children: [
                             Container(
-                              height: 160,
+                              height: 140,
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/banner_class.jpg"),
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             Container(
-                              height: 160,
+                              height: 140,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [

@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lyceumai/features/classroom/cubit/classroom_cubit.dart';
 import 'package:lyceumai/features/home/pages/home_page.dart';
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
 import 'package:lyceumai/features/auth/pages/login_page.dart';
@@ -59,7 +61,11 @@ class AppRouter {
         ShellRoute(
           builder: (context, state, child) {
             final id = state.pathParameters['id']!;
-            return ClassroomLayoutPage(id: id, child: child);
+            // return ClassroomLayoutPage(id: id, child: child);
+            return BlocProvider(
+              create: (_) => ClassroomCubit()..getClassroom(id),
+              child: ClassroomLayoutPage(id: id, child: child),
+            );
           },
           routes: [
             GoRoute(
