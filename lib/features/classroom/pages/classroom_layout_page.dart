@@ -12,6 +12,7 @@ class ClassroomLayoutPage extends StatefulWidget {
 
 class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
   int _currentIndex = 0;
+  String _pageTitle = "Overview";
 
   // Bottom nav destinations mapping
   final List<String> _tabs = [
@@ -22,13 +23,24 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
     'quizzes',
   ];
 
+  final Map<String, String> _tabTitles = {
+    '': 'Overview',
+    'assignments': 'Assignments',
+    'syllabus': 'Syllabus',
+    'materials': 'Materials',
+    'quizzes': 'Quizzes',
+  };
+
   void _onTap(int index) {
     setState(() => _currentIndex = index);
     final tab = _tabs[index];
+    setState(() {
+      _pageTitle = _tabTitles[tab] ?? '';
+    });
     if (tab.isEmpty) {
-      context.go('/class/${widget.id}');
+      context.push('/class/${widget.id}');
     } else {
-      context.go('/class/${widget.id}/$tab');
+      context.push('/class/${widget.id}/$tab');
     }
   }
 
@@ -36,7 +48,7 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("Classroom"), backgroundColor: Colors.white),
+      appBar: AppBar(title: Text(_pageTitle), backgroundColor: Colors.white),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

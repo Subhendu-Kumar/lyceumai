@@ -66,7 +66,10 @@ class _JoinClassPageState extends State<JoinClassPage> {
                     ),
                     backgroundColor: Colors.blue,
                     onPressed: () {
-                      final code = _codeController.text.trim();
+                      final code = _codeController.text.trim().replaceAll(
+                        '\u0000',
+                        '',
+                      );
                       if (code.isNotEmpty) {
                         context.read<ClassCubit>().joinClass(code);
                       } else {

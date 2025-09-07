@@ -291,6 +291,27 @@ class _HomePageState extends State<HomePage> {
               ),
               const Divider(height: 1),
               InkWell(
+                onTap: () async {
+                  context.read<AuthCubit>().logout();
+                  context.replace('/');
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  child: const Center(
+                    child: Text(
+                      "Sign out",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(height: 1),
+              InkWell(
                 onTap: () => Navigator.pop(context),
                 child: Container(
                   width: double.infinity,

@@ -78,7 +78,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
                           fullscreenDialog: true,
                           builder: (_) => PdfViewPage(
                             pdfUrl: classroom.syllabusUrl,
-                            className: classroom.name,
+                            title: "${classroom.name} Syllabus",
                           ),
                         ),
                       );
