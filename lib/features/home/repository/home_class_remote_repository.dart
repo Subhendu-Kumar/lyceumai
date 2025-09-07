@@ -14,7 +14,7 @@ class HomeClassRemoteRepository {
         throw "No Token Found";
       }
       final res = await http.get(
-        Uri.parse('${ServerConstant.serverURL}/classes/all'),
+        Uri.parse('${ServerConstant.serverURL}/class/all'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

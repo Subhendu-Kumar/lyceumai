@@ -16,7 +16,7 @@ class ClassroomRemoteRepository {
         throw "No Token Found";
       }
       final res = await http.get(
-        Uri.parse('${ServerConstant.serverURL}/classes/$classId'),
+        Uri.parse('${ServerConstant.serverURL}/class/$classId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -38,7 +38,7 @@ class ClassroomRemoteRepository {
         throw "No Token Found";
       }
       final res = await http.get(
-        Uri.parse('${ServerConstant.serverURL}/classes/materials/$classId'),
+        Uri.parse('${ServerConstant.serverURL}/class/materials/$classId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -62,7 +62,7 @@ class ClassroomRemoteRepository {
         throw "No Token Found";
       }
       final res = await http.get(
-        Uri.parse('${ServerConstant.serverURL}/classes/quizzes/$classId'),
+        Uri.parse('${ServerConstant.serverURL}/class/quizzes/$classId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
