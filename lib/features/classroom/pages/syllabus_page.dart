@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lyceumai/features/classroom/cubit/classroom_cubit.dart';
-import 'package:lyceumai/not_stable/pdf_view_page.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:lyceumai/features/classroom/cubit/classroom_cubit.dart';
 
 class SyllabusPage extends StatefulWidget {
   final String id;
@@ -25,40 +25,6 @@ class _SyllabusPageState extends State<SyllabusPage> {
             final classroom = state.classrooms;
             return Padding(
               padding: const EdgeInsets.all(16.0),
-              // child: Column(
-              //   children: [
-              //     const Text(
-              //       "Syllabus Preview",
-              //       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              //     ),
-              //     const SizedBox(height: 10),
-
-              //     // Small preview box
-              //     GestureDetector(
-              //       onTap: () {
-              //         // Navigator.push(
-              //         //   context,
-              //         //   MaterialPageRoute(
-              //         //     builder: (_) => FullPdfViewPage(pdfUrl: syllabusUrl),
-              //         //   ),
-              //         // );
-              //       },
-              //       child: Container(
-              //         height: 200,
-              //         decoration: BoxDecoration(
-              //           border: Border.all(color: Colors.grey.shade400),
-              //           borderRadius: BorderRadius.circular(10),
-              //         ),
-              //         child: SfPdfViewer.network(
-              //           classroom.syllabusUrl,
-              //           canShowScrollHead: false,
-              //           canShowScrollStatus: false,
-              //           pageLayoutMode: PdfPageLayoutMode.single,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -72,15 +38,12 @@ class _SyllabusPageState extends State<SyllabusPage> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          fullscreenDialog: true,
-                          builder: (_) => PdfViewPage(
-                            pdfUrl: classroom.syllabusUrl,
-                            title: "${classroom.name} Syllabus",
-                          ),
-                        ),
+                      context.push(
+                        "/pdfview",
+                        extra: {
+                          'pdfUrl': classroom.syllabusUrl,
+                          'title': "${classroom.name} Syllabus",
+                        },
                       );
                     },
                     child: Container(

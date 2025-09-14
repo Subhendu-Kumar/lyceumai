@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lyceumai/features/classroom/cubit/classroom_cubit.dart';
 import 'package:lyceumai/models/class_materials_model.dart';
-import 'package:lyceumai/not_stable/pdf_view_page.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:lyceumai/features/classroom/cubit/materials_cubit.dart';
 
 class ClassroomMaterialsPage extends StatefulWidget {
   final String id;
@@ -15,16 +15,22 @@ class ClassroomMaterialsPage extends StatefulWidget {
 
 class _ClassroomMaterialsPageState extends State<ClassroomMaterialsPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<MaterialsCubit>().getClassMaterials(widget.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocBuilder<ClassroomCubit, ClassroomState>(
+      body: BlocBuilder<MaterialsCubit, MaterialsState>(
         builder: (context, state) {
-          if (state is ClassroomMaterialsLoading) {
+          if (state is MaterialsLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is ClassroomError) {
+          } else if (state is MaterialsError) {
             return Center(child: Text("Error: ${state.error}"));
-          } else if (state is ClassroomLoaded) {
+          } else if (state is MaterialsLoaded) {
             final List<ClassMaterialsModel> materials = state.materials;
             if (materials.isEmpty) {
               return const Center(child: Text("No materials uploaded yet."));
@@ -36,15 +42,12 @@ class _ClassroomMaterialsPageState extends State<ClassroomMaterialsPage> {
                 final material = materials[index];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        fullscreenDialog: true,
-                        builder: (_) => PdfViewPage(
-                          pdfUrl: material.fileUrl,
-                          title: "${material.title}.pdf",
-                        ),
-                      ),
+                    context.push(
+                      "/pdfview",
+                      extra: {
+                        'pdfUrl': material.fileUrl,
+                        'title': "${material.title}.pdf",
+                      },
                     );
                   },
                   child: Container(

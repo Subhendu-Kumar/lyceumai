@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lyceumai/core/utils.dart';
-import 'package:lyceumai/features/classroom/cubit/classroom_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lyceumai/models/class_quiz_model.dart';
+import 'package:lyceumai/features/classroom/cubit/quizzes_cubit.dart';
 
 class QuizzesPage extends StatefulWidget {
   final String id;
@@ -14,16 +14,22 @@ class QuizzesPage extends StatefulWidget {
 
 class _QuizzesPageState extends State<QuizzesPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<QuizzesCubit>().getClassQuizzes(widget.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocBuilder<ClassroomCubit, ClassroomState>(
+      body: BlocBuilder<QuizzesCubit, QuizzesState>(
         builder: (context, state) {
-          if (state is ClassroomMaterialsLoading) {
+          if (state is QuizzesLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is ClassroomError) {
+          } else if (state is QuizzesError) {
             return Center(child: Text("Error: ${state.error}"));
-          } else if (state is ClassroomLoaded) {
+          } else if (state is QuizzesLoaded) {
             final List<ClassQuizModel> quizzes = state.quizzes;
             if (quizzes.isEmpty) {
               return const Center(child: Text("No quizzes available."));
