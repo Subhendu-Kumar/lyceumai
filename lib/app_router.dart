@@ -22,6 +22,8 @@ import "package:lyceumai/features/classroom/pages/classroom_overview_page.dart";
 import 'package:lyceumai/features/classroom/pages/classroom_materials_page.dart';
 
 import 'package:lyceumai/pages/pdf_view_page.dart';
+import 'package:lyceumai/pages/text_assignment_submission_page.dart';
+import 'package:lyceumai/pages/voice_assignment_submission_page.dart';
 
 class AppRouter {
   static GoRouter router(AuthCubit authCubit) {
@@ -117,6 +119,24 @@ class AppRouter {
               },
             ),
           ],
+        ),
+        GoRoute(
+          path: '/submission/:assignmentId/text',
+          pageBuilder: (context, state) {
+            final assignmentId = state.pathParameters['assignmentId']!;
+            return NoTransitionPage(
+              child: TextAssignmentSubmissionPage(assignmentId: assignmentId),
+            );
+          },
+        ),
+        GoRoute(
+          path: '/submission/:assignmentId/voice',
+          pageBuilder: (context, state) {
+            final assignmentId = state.pathParameters['assignmentId']!;
+            return NoTransitionPage(
+              child: VoiceAssignmentSubmissionPage(assignmentId: assignmentId),
+            );
+          },
         ),
         GoRoute(
           path: '/pdfview',
