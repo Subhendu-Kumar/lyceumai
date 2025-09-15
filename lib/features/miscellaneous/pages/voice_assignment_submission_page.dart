@@ -1,10 +1,15 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import "package:http/http.dart" as http;
-import 'package:lyceumai/core/constants/constants.dart';
-import 'package:lyceumai/core/utils.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_sound/public/flutter_sound_player.dart';
+import 'package:flutter_sound/public/flutter_sound_recorder.dart';
+
 import 'package:lyceumai/models/assignment_model.dart';
-import 'package:lyceumai/core/services/sp_service.dart';
+import 'package:lyceumai/features/miscellaneous/cubit/assignment_load_cubit.dart';
+import 'package:lyceumai/features/miscellaneous/widgets/assignment_detail_card.dart';
+import 'package:lyceumai/features/miscellaneous/cubit/assignment_submission_cubit.dart';
 
 class VoiceAssignmentSubmissionPage extends StatefulWidget {
   final String assignmentId;
@@ -17,45 +22,92 @@ class VoiceAssignmentSubmissionPage extends StatefulWidget {
 
 class _VoiceAssignmentSubmissionPageState
     extends State<VoiceAssignmentSubmissionPage> {
-  String errorMessage = '';
-  AssignmentModel? assignment;
-  final SpService spService = SpService();
+  bool isRecorderInit = false;
+  bool isRecording = false;
+  bool isPlaying = false;
+  String? recordedFilePath;
+  // String? serverResponse;
+
+  FlutterSoundRecorder? _recorder;
+  FlutterSoundPlayer? _player;
 
   @override
   void initState() {
     super.initState();
-    fetchAssignment(widget.assignmentId);
+    context.read<AssignmentLoadCubit>().loadAssignment(widget.assignmentId);
+    _recorder = FlutterSoundRecorder();
+    _player = FlutterSoundPlayer();
+    openAudio();
   }
 
-  Future<void> fetchAssignment(String id) async {
-    try {
-      final token = await spService.getToken();
-      if (token == null) {
+  @override
+  void dispose() {
+    _recorder!.closeRecorder();
+    _player!.closePlayer();
+    isRecorderInit = false;
+    super.dispose();
+  }
+
+  Future<void> openAudio() async {
+    final micStatus = await Permission.microphone.request();
+    if (micStatus != PermissionStatus.granted) {
+      throw RecordingPermissionException("Mic is not allowed!");
+    }
+
+    await _recorder!.openRecorder();
+    await _player!.openPlayer();
+
+    _player!.setSubscriptionDuration(const Duration(milliseconds: 100));
+    _player!.onProgress!.listen((event) {
+      if (event.duration.inMilliseconds > 0 &&
+          event.position >= event.duration) {
         setState(() {
-          errorMessage = "No Token Found";
+          isPlaying = false;
         });
       }
-      final res = await http.get(
-        Uri.parse('${ServerConstant.serverURL}/assignment/s/$id'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-      );
-      if (res.statusCode != 200) {
-        setState(() {
-          errorMessage = jsonDecode(res.body)['detail'];
-        });
-      }
+    });
+
+    isRecorderInit = true;
+  }
+
+  void handleRecording() async {
+    if (!isRecorderInit) return;
+
+    var tempDir = await getTemporaryDirectory();
+    var path = '${tempDir.path}/flutter_sound.aac';
+
+    if (isRecording) {
+      final filePath = await _recorder!.stopRecorder();
       setState(() {
-        assignment = AssignmentModel.fromMap(
-          jsonDecode(res.body)['assignment'],
+        isRecording = false;
+        recordedFilePath = filePath;
+      });
+    } else {
+      await _recorder!.startRecorder(toFile: path);
+      setState(() {
+        isRecording = true;
+      });
+    }
+  }
+
+  void togglePlayback() async {
+    if (recordedFilePath == null) return;
+
+    if (isPlaying) {
+      await _player!.pausePlayer();
+      setState(() => isPlaying = false);
+    } else {
+      if (_player!.isPaused) {
+        await _player!.resumePlayer();
+      } else {
+        await _player!.startPlayer(
+          fromURI: recordedFilePath,
+          whenFinished: () {
+            setState(() => isPlaying = false);
+          },
         );
-      });
-    } catch (e) {
-      setState(() {
-        errorMessage = e.toString();
-      });
+      }
+      setState(() => isPlaying = true);
     }
   }
 
@@ -67,107 +119,219 @@ class _VoiceAssignmentSubmissionPageState
         title: const Text('Voice Assignment Submission'),
         backgroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (errorMessage.isNotEmpty)
-                Center(
-                  child: Text(
-                    errorMessage,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                ),
-              if (assignment == null && errorMessage.isEmpty)
-                const Center(child: CircularProgressIndicator()),
-              if (assignment != null) ...[
-                Card(
-                  color: Colors.white,
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          assignment?.title ?? '',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.category,
-                              size: 18,
-                              color: Colors.blueGrey,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              assignment?.type ?? '',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.calendar_today,
-                              size: 18,
-                              color: Colors.redAccent,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              formatDate(assignment?.dueDate ?? ''),
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            recordedFilePath = null;
+          });
+        },
+        backgroundColor: Colors.grey[100],
+        child: const Icon(Icons.refresh_rounded),
+      ),
+      body: BlocBuilder<AssignmentLoadCubit, AssignmentLoadState>(
+        builder: (context, state) {
+          AssignmentModel? assignment;
+          if (state is AssignmentLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is AssignmentLoadingFailure) {
+            return Center(
+              child: Text(
+                state.error,
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
+          } else if (state is AssignmentLoaded) {
+            assignment = state.assignment;
+          }
+
+          return BlocListener<
+            AssignmentSubmissionCubit,
+            AssignmentSubmissionState
+          >(
+            listener: (context, subState) {
+              if (subState is AssignmentSubmissionSuccess) {
+                Future.delayed(Duration(milliseconds: 100), () {
+                  // ignore: use_build_context_synchronously
+                  context.pop();
+                });
+              } else if (subState is AssignmentSubmissionFailure) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(subState.error)));
+              }
+            },
+            child: BlocBuilder<AssignmentSubmissionCubit, AssignmentSubmissionState>(
+              builder: (context, subState) {
+                return Stack(
+                  children: [
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(
-                              Icons.help_outline,
-                              size: 18,
-                              color: Colors.green,
+                            AssignmentDetailCard(assignment: assignment!),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Record Your Answer",
+                              style: TextStyle(fontSize: 16),
                             ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                assignment?.question ?? '',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black87,
-                                ),
+                            const SizedBox(height: 8),
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    isRecording
+                                        ? 'Recording in progress...'
+                                        : 'Press the mic to start recording',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  IconButton(
+                                    onPressed: handleRecording,
+                                    icon: isRecording
+                                        ? const Icon(
+                                            Icons.stop,
+                                            color: Colors.red,
+                                            size: 40,
+                                          )
+                                        : const Icon(
+                                            Icons.mic,
+                                            color: Colors.blue,
+                                            size: 40,
+                                          ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  // If recorded file exists
+                                  if (recordedFilePath != null) ...[
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.audiotrack,
+                                          color: Colors.blue,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            "Saved File: $recordedFilePath",
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                    ElevatedButton.icon(
+                                      onPressed: togglePlayback,
+                                      style: ElevatedButton.styleFrom(
+                                        iconColor: Colors.white,
+                                        minimumSize: const Size(
+                                          double.infinity,
+                                          52,
+                                        ),
+                                        backgroundColor: Colors.blue,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            100,
+                                          ),
+                                        ),
+                                        elevation: 4,
+                                        shadowColor: Colors.blueAccent,
+                                      ),
+                                      icon: Icon(
+                                        isPlaying
+                                            ? Icons.pause
+                                            : Icons.play_arrow,
+                                      ),
+                                      label: Text(
+                                        isPlaying ? "Pause" : "Play",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                    if (isPlaying) ...[
+                                      const SizedBox(height: 8),
+                                      const Text(
+                                        "Playing audio...",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueGrey,
+                                        ),
+                                      ),
+                                    ],
+                                    const SizedBox(height: 12),
+                                    ElevatedButton(
+                                      onPressed:
+                                          subState
+                                              is AssignmentSubmissionInProgress
+                                          ? null
+                                          : () {
+                                              context
+                                                  .read<
+                                                    AssignmentSubmissionCubit
+                                                  >()
+                                                  .voiceAssignmentSubmission(
+                                                    assignment!.id,
+                                                    recordedFilePath!,
+                                                  );
+                                            },
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(
+                                          double.infinity,
+                                          52,
+                                        ),
+                                        backgroundColor: Colors.blue,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            100,
+                                          ),
+                                        ),
+                                        elevation: 5,
+                                        shadowColor: Colors.blueAccent,
+                                      ),
+                                      child:
+                                          subState
+                                              is AssignmentSubmissionInProgress
+                                          ? const SizedBox(
+                                              height: 24,
+                                              width: 24,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          : const Text(
+                                              'Submit Answer',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white,
+                                                letterSpacing: 1.2,
+                                              ),
+                                            ),
+                                    ),
+                                  ],
+                                ],
                               ),
                             ),
+                            const SizedBox(height: 40),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 40),
-              ],
-            ],
-          ),
-        ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }
