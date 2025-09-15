@@ -1,3 +1,4 @@
+import 'package:lyceumai/features/miscellaneous/cubit/assignment_load_cubit.dart';
 import 'package:lyceumai/my_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ void main() {
       providers: [
         BlocProvider(create: (_) => AuthCubit()..getUserData()),
         BlocProvider(create: (_) => ClassCubit()),
+        BlocProvider(create: (_) => AssignmentLoadCubit()),
       ],
       child: const MyApp(),
     ),
