@@ -45,11 +45,7 @@ class _AssignmentsPageState extends State<AssignmentsPage> {
                 return GestureDetector(
                   onTap: () {
                     if (assignment.isSubmitted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Assignment already submitted."),
-                        ),
-                      );
+                      context.push("/submission/${assignment.id}");
                       return;
                     } else if (isVoice) {
                       context.push("/submission/${assignment.id}/voice");

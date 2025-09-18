@@ -22,6 +22,7 @@ import "package:lyceumai/features/classroom/pages/classroom_overview_page.dart";
 import 'package:lyceumai/features/classroom/pages/classroom_materials_page.dart';
 
 import 'package:lyceumai/features/miscellaneous/pages/pdf_view_page.dart';
+import 'package:lyceumai/features/miscellaneous/pages/assignment_submission_view_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/text_assignment_submission_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/voice_assignment_submission_page.dart';
 
@@ -119,6 +120,15 @@ class AppRouter {
               },
             ),
           ],
+        ),
+        GoRoute(
+          path: '/submission/:assignmentId',
+          pageBuilder: (context, state) {
+            final assignmentId = state.pathParameters['assignmentId']!;
+            return NoTransitionPage(
+              child: AssignmentSubmissionViewPage(assignmentId: assignmentId),
+            );
+          },
         ),
         GoRoute(
           path: '/submission/:assignmentId/text',
