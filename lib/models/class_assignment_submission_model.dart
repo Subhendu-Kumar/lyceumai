@@ -33,10 +33,10 @@ class ClassAssignmentSubmissionModel {
   factory ClassAssignmentSubmissionModel.fromMap(Map<String, dynamic> map) {
     return ClassAssignmentSubmissionModel(
       assignment: AssignmentModel.fromMap(
-        map['assignment'] as Map<String, dynamic>,
+        map['assignment'] ?? <String, dynamic>{},
       ),
       submission: SubmissionModel.fromMap(
-        map['submission'] as Map<String, dynamic>,
+        map['submission'] ?? <String, dynamic>{},
       ),
     );
   }

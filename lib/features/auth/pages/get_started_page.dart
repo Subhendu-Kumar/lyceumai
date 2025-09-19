@@ -7,7 +7,7 @@ class GetStartedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6FBFF),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,8 +52,8 @@ class GetStartedPage extends StatelessWidget {
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(80)),
+                color: Color.fromARGB(255, 216, 235, 251),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(60)),
               ),
               padding: const EdgeInsets.all(24),
               child: Column(
