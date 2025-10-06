@@ -76,9 +76,15 @@ class AppRouter {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(create: (_) => ClassroomCubit()..getClassroom(id)),
-                BlocProvider(create: (_) => MaterialsCubit()),
-                BlocProvider(create: (_) => QuizzesCubit()),
-                BlocProvider(create: (_) => AssignmentCubit()),
+                BlocProvider(
+                  create: (_) => MaterialsCubit()..getClassMaterials(id),
+                ),
+                BlocProvider(
+                  create: (_) => QuizzesCubit()..getClassQuizzes(id),
+                ),
+                BlocProvider(
+                  create: (_) => AssignmentCubit()..getClassAssignments(id),
+                ),
               ],
               child: ClassroomLayoutPage(id: id, child: child),
             );

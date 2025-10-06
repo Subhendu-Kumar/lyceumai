@@ -15,11 +15,11 @@ class AssignmentsPage extends StatefulWidget {
 }
 
 class _AssignmentsPageState extends State<AssignmentsPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<AssignmentCubit>().getClassAssignments(widget.id);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   context.read<AssignmentCubit>().getClassAssignments(widget.id);
+  // }
 
   @override
   Widget build(BuildContext context) {

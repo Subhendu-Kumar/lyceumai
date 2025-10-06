@@ -13,11 +13,11 @@ class QuizzesPage extends StatefulWidget {
 }
 
 class _QuizzesPageState extends State<QuizzesPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<QuizzesCubit>().getClassQuizzes(widget.id);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   context.read<QuizzesCubit>().getClassQuizzes(widget.id);
+  // }
 
   @override
   Widget build(BuildContext context) {

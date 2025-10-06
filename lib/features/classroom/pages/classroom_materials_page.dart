@@ -14,11 +14,11 @@ class ClassroomMaterialsPage extends StatefulWidget {
 }
 
 class _ClassroomMaterialsPageState extends State<ClassroomMaterialsPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<MaterialsCubit>().getClassMaterials(widget.id);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   context.read<MaterialsCubit>().getClassMaterials(widget.id);
+  // }
 
   @override
   Widget build(BuildContext context) {
