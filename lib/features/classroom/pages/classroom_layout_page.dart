@@ -31,6 +31,8 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
     'quizzes': 'Quizzes',
   };
 
+  final List<String> _popUpMenuItems = ['meetings', 'peoples', 'settings'];
+
   void _onTap(int index) {
     setState(() => _currentIndex = index);
     final tab = _tabs[index];
@@ -48,7 +50,36 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text(_pageTitle), backgroundColor: Colors.white),
+      appBar: AppBar(
+        title: Text(_pageTitle),
+        backgroundColor: Colors.white,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert, color: Colors.black),
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            onSelected: (value) {
+              switch (value) {
+                case 'meetings':
+                  context.push('/meetings/${widget.id}');
+                  break;
+                case 'peoples':
+                  break;
+                case 'settings':
+                  break;
+              }
+            },
+            itemBuilder: (context) => [
+              ..._popUpMenuItems.map((item) {
+                String title = item[0].toUpperCase() + item.substring(1);
+                return PopupMenuItem(value: item, child: Text(title));
+              }),
+            ],
+          ),
+        ],
+      ),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

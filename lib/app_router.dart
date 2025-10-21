@@ -20,6 +20,8 @@ import "package:lyceumai/features/classroom/pages/assignments_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_layout_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_overview_page.dart";
 import 'package:lyceumai/features/classroom/pages/classroom_materials_page.dart';
+import 'package:lyceumai/features/meetings/cubit/meetings_cubit.dart';
+import 'package:lyceumai/features/meetings/pages/meetings_layout_page.dart';
 
 import 'package:lyceumai/features/miscellaneous/pages/pdf_view_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/assignment_submission_view_page.dart';
@@ -162,6 +164,18 @@ class AppRouter {
               child: PdfViewPage(
                 title: extraData?['title'],
                 pdfUrl: extraData?['pdfUrl'],
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: "/meetings/:classId",
+          pageBuilder: (context, state) {
+            final classId = state.pathParameters["classId"]!;
+            return NoTransitionPage(
+              child: BlocProvider(
+                create: (context) => MeetingsCubit()..fetchMeetings(classId),
+                child: MeetingsLayoutPage(classId: classId),
               ),
             );
           },
