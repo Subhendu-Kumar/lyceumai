@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:lyceumai/models/class_materials_model.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:lyceumai/features/classroom/cubit/materials_cubit.dart';
+import 'package:lyceumai/features/classroom/widgets/pdf_mini_preview.dart';
 
 class ClassroomMaterialsPage extends StatefulWidget {
   final String id;
@@ -14,12 +15,6 @@ class ClassroomMaterialsPage extends StatefulWidget {
 }
 
 class _ClassroomMaterialsPageState extends State<ClassroomMaterialsPage> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   context.read<MaterialsCubit>().getClassMaterials(widget.id);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,21 +61,7 @@ class _ClassroomMaterialsPageState extends State<ClassroomMaterialsPage> {
                     ),
                     child: Column(
                       children: [
-                        // Mini preview of first page
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(16),
-                          ),
-                          child: SizedBox(
-                            height: 150,
-                            child: SfPdfViewer.network(
-                              material.fileUrl,
-                              canShowScrollHead: false,
-                              canShowScrollStatus: false,
-                              pageLayoutMode: PdfPageLayoutMode.single,
-                            ),
-                          ),
-                        ),
+                        PdfMiniPreview(syllabusUrl: material.fileUrl),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,

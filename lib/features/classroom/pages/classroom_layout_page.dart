@@ -57,6 +57,7 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert, color: Colors.black),
             color: Colors.white,
+            offset: const Offset(0, 40),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:lyceumai/features/meetings/cubit/meetings_cubit.dart';
+import 'package:lyceumai/features/meetings/widgets/meeting_type_list.dart';
 
 class MeetingsLayoutPage extends StatefulWidget {
   final String classId;
@@ -37,40 +39,20 @@ class _MeetingsLayoutPageState extends State<MeetingsLayoutPage> {
             } else if (state is CallsLoaded) {
               return TabBarView(
                 children: [
-                  // Ended Meetings
-                  ListView.builder(
-                    itemCount: state.endedCalls.length,
-                    itemBuilder: (context, index) {
-                      final call = state.endedCalls[index];
-                      return ListTile(
-                        leading: const Icon(
-                          Icons.check_circle_outline,
-                          color: Colors.grey,
-                        ),
-                        title: Text(call.description),
-                        subtitle: Text(call.startTime),
-                      );
-                    },
-                  ),
-
-                  // Upcoming Meetings
-                  ListView.builder(
-                    itemCount: state.upcomingCalls.length,
-                    itemBuilder: (context, index) {
-                      final call = state.upcomingCalls[index];
-                      return ListTile(
-                        leading: const Icon(Icons.schedule, color: Colors.blue),
-                        title: Text(call.description),
-                        subtitle: Text(call.startTime),
-                      );
-                    },
-                  ),
+                  MeetingTypeList(calls: state.endedCalls, type: "ended"),
+                  MeetingTypeList(calls: state.upcomingCalls, type: "upcoming"),
                 ],
               );
             } else if (state is CallsError) {
-              return Center(child: Text(state.message));
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(child: Text(state.message)),
+              );
             } else {
-              return const SizedBox();
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(child: Text("No meetings available.")),
+              );
             }
           },
         ),

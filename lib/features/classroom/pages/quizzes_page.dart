@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lyceumai/core/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:lyceumai/core/utils.dart';
 import 'package:lyceumai/models/class_quiz_model.dart';
 import 'package:lyceumai/features/classroom/cubit/quizzes_cubit.dart';
 
@@ -13,12 +14,6 @@ class QuizzesPage extends StatefulWidget {
 }
 
 class _QuizzesPageState extends State<QuizzesPage> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   context.read<QuizzesCubit>().getClassQuizzes(widget.id);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

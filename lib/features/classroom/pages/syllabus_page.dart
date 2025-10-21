@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
 import 'package:lyceumai/features/classroom/cubit/classroom_cubit.dart';
+import 'package:lyceumai/features/classroom/widgets/pdf_mini_preview.dart';
 
 class SyllabusPage extends StatefulWidget {
   final String id;
@@ -64,20 +65,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
                       ),
                       child: Column(
                         children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(16),
-                            ),
-                            child: SizedBox(
-                              height: 150,
-                              child: SfPdfViewer.network(
-                                classroom.syllabusUrl,
-                                canShowScrollHead: false,
-                                canShowScrollStatus: false,
-                                pageLayoutMode: PdfPageLayoutMode.single,
-                              ),
-                            ),
-                          ),
+                          PdfMiniPreview(syllabusUrl: classroom.syllabusUrl),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
