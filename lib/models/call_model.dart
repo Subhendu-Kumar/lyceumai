@@ -1,53 +1,60 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+class CallStatus {
+  static const String ongoing = "ONGOING";
+  static const String canceled = "CANCELED";
+  static const String scheduled = "SCHEDULED";
+  static const String completed = "COMPLETED";
+}
+
 class CallModel {
-  final String id;
-  final String classId;
-  final String? endTime;
-  final String startTime;
+  final String meetId;
+  final String meetStatus;
+  final String classroomId;
+  final String meetingTime;
   final String description;
 
   CallModel({
-    required this.id,
-    required this.classId,
-    this.endTime,
-    required this.startTime,
+    required this.meetId,
+    required this.meetStatus,
+    required this.classroomId,
+    required this.meetingTime,
     required this.description,
   });
 
   CallModel copyWith({
-    String? id,
-    String? classId,
-    String? endTime,
-    String? startTime,
+    String? meetId,
+    String? meetStatus,
+    String? classroomId,
+    String? meetingTime,
     String? description,
   }) {
     return CallModel(
-      id: id ?? this.id,
-      classId: classId ?? this.classId,
-      endTime: endTime ?? this.endTime,
-      startTime: startTime ?? this.startTime,
+      meetId: meetId ?? this.meetId,
+      meetStatus: meetStatus ?? this.meetStatus,
+      classroomId: classroomId ?? this.classroomId,
+      meetingTime: meetingTime ?? this.meetingTime,
       description: description ?? this.description,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'classId': classId,
-      'end_time': endTime,
-      'start_time': startTime,
+      'meetId': meetId,
+      'meetStatus': meetStatus,
+      'classroomId': classroomId,
+      'MeetingTime': meetingTime,
       'description': description,
     };
   }
 
   factory CallModel.fromMap(Map<String, dynamic> map) {
     return CallModel(
-      id: map['id'] ?? "",
-      classId: map['classId'] ?? "",
-      endTime: map['end_time'] != null ? map['end_time'] ?? "" : null,
-      startTime: map['start_time'] ?? "",
+      meetId: map['meetId'] ?? "",
+      meetStatus: map['meetStatus'] ?? "",
+      classroomId: map['classroomId'] ?? "",
+      meetingTime: map['MeetingTime'] ?? "",
       description: map['description'] ?? "",
     );
   }
@@ -59,26 +66,26 @@ class CallModel {
 
   @override
   String toString() {
-    return 'CallModel(id: $id, classId: $classId, endTime: $endTime, startTime: $startTime, description: $description)';
+    return 'CallModel(meetId: $meetId, meetStatus: $meetStatus, classroomId: $classroomId, meetingTime: $meetingTime, description: $description)';
   }
 
   @override
   bool operator ==(covariant CallModel other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.classId == classId &&
-        other.endTime == endTime &&
-        other.startTime == startTime &&
+    return other.meetId == meetId &&
+        other.meetStatus == meetStatus &&
+        other.classroomId == classroomId &&
+        other.meetingTime == meetingTime &&
         other.description == description;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        classId.hashCode ^
-        endTime.hashCode ^
-        startTime.hashCode ^
+    return meetId.hashCode ^
+        meetStatus.hashCode ^
+        classroomId.hashCode ^
+        meetingTime.hashCode ^
         description.hashCode;
   }
 }

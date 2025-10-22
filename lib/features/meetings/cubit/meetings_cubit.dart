@@ -19,24 +19,20 @@ class MeetingsCubit extends Cubit<MeetingsState> {
         classId,
       );
 
-      final now = DateTime.now();
+      final endedCalls = data
+          .where(
+            (call) =>
+                call.meetStatus.trim().toUpperCase() == CallStatus.completed ||
+                call.meetStatus.trim().toUpperCase() == CallStatus.canceled,
+          )
+          .toList();
 
-      final endedCalls = data.where((call) {
-        if (call.endTime == null) return false;
-        try {
-          return DateTime.parse(call.endTime!).isBefore(now);
-        } catch (_) {
-          return false;
-        }
-      }).toList();
-
-      final upcomingCalls = data.where((call) {
-        try {
-          return DateTime.parse(call.startTime).isAfter(now);
-        } catch (_) {
-          return false;
-        }
-      }).toList();
+      final upcomingCalls = data
+          .where(
+            (call) =>
+                call.meetStatus.trim().toUpperCase() == CallStatus.scheduled,
+          )
+          .toList();
 
       emit(CallsLoaded(endedCalls: endedCalls, upcomingCalls: upcomingCalls));
     } catch (e) {

@@ -27,8 +27,8 @@ class _MeetingsLayoutPageState extends State<MeetingsLayoutPage> {
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.grey,
             tabs: [
-              Tab(icon: Icon(Icons.check_circle_outline), text: "Ended"),
               Tab(icon: Icon(Icons.schedule), text: "Upcoming"),
+              Tab(icon: Icon(Icons.check_circle_outline), text: "Ended"),
             ],
           ),
         ),
@@ -39,8 +39,8 @@ class _MeetingsLayoutPageState extends State<MeetingsLayoutPage> {
             } else if (state is CallsLoaded) {
               return TabBarView(
                 children: [
-                  MeetingTypeList(calls: state.endedCalls, type: "ended"),
                   MeetingTypeList(calls: state.upcomingCalls, type: "upcoming"),
+                  MeetingTypeList(calls: state.endedCalls, type: "ended"),
                 ],
               );
             } else if (state is CallsError) {

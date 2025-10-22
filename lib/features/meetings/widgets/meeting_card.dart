@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 import 'package:lyceumai/core/utils.dart';
@@ -26,8 +28,35 @@ class MeetingCard extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
         ),
         subtitle: Text(
-          formatDate(call.startTime),
+          formatDate(call.meetingTime),
           style: const TextStyle(color: Colors.black54),
+        ),
+        trailing: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: call.meetStatus == CallStatus.ongoing
+                ? Colors.green.withOpacity(0.1)
+                : call.meetStatus == CallStatus.canceled
+                ? Colors.red.withOpacity(0.1)
+                : call.meetStatus == CallStatus.scheduled
+                ? Colors.blue.withOpacity(0.1)
+                : Colors.grey.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            call.meetStatus,
+            style: TextStyle(
+              color: call.meetStatus == CallStatus.ongoing
+                  ? Colors.green
+                  : call.meetStatus == CallStatus.canceled
+                  ? Colors.red
+                  : call.meetStatus == CallStatus.scheduled
+                  ? Colors.blue
+                  : Colors.grey,
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+            ),
+          ),
         ),
       ),
     );
