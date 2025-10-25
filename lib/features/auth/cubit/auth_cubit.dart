@@ -3,22 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:lyceumai/models/user_model.dart';
 import 'package:lyceumai/core/services/sp_service.dart';
+import 'package:lyceumai/core/services/fcm_token_service.dart';
 import 'package:lyceumai/features/auth/repository/auth_remote_repository.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
-  final authRemoteRepository = AuthRemoteRepository();
-  final spService = SpService();
+  final _spService = SpService();
+  final _fcmTokenService = FcmTokenService();
+  final _authRemoteRepository = AuthRemoteRepository();
 
   void getUserData() async {
     try {
       emit(AuthLoadingInitial());
-      final userModel = await authRemoteRepository.getUserData();
+      final userModel = await _authRemoteRepository.getUserData();
       if (userModel != null) {
         if (userModel.token.isNotEmpty) {
-          await spService.setToken(userModel.token);
+          await _spService.setToken(userModel.token);
+          await _fcmTokenService.initFCM();
         }
         emit(AuthLoggedIn(userModel));
       } else {
@@ -36,7 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     try {
       emit(AuthLoading());
-      await authRemoteRepository.signUp(
+      await _authRemoteRepository.signUp(
         name: name,
         email: email,
         password: password,
@@ -50,12 +53,13 @@ class AuthCubit extends Cubit<AuthState> {
   void login({required String email, required String password}) async {
     try {
       emit(AuthLoading());
-      final userModel = await authRemoteRepository.login(
+      final userModel = await _authRemoteRepository.login(
         email: email,
         password: password,
       );
       if (userModel.token.isNotEmpty) {
-        await spService.setToken(userModel.token);
+        await _spService.setToken(userModel.token);
+        await _fcmTokenService.initFCM();
       }
       emit(AuthLoggedIn(userModel));
     } catch (e) {
@@ -64,7 +68,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void logout() async {
-    await spService.clearToken();
+    await _spService.clearToken();
     emit(AuthInitial());
   }
 }
