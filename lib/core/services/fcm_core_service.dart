@@ -1,12 +1,19 @@
 import 'package:flutter/foundation.dart';
+import 'package:go_router/go_router.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FcmCoreService {
+  late GoRouter _router;
   AndroidNotificationChannel? _channel;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
+  // 👇 Call this before initialize()
+  void setRouter(GoRouter router) {
+    _router = router;
+  }
 
   Future<void> _requestNotificationPermission() async {
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
@@ -50,7 +57,18 @@ class FcmCoreService {
     );
     const initSettings = InitializationSettings(android: androidSettings);
 
-    await _flutterLocalNotificationsPlugin.initialize(initSettings);
+    // await _flutterLocalNotificationsPlugin.initialize(initSettings);
+
+    await _flutterLocalNotificationsPlugin.initialize(
+      initSettings,
+      // 👇 When user taps on local notification
+      onDidReceiveNotificationResponse: (response) {
+        final route = response.payload;
+        if (route != null && route.isNotEmpty) {
+          _router.push(route);
+        }
+      },
+    );
   }
 
   Future<void> showNotification(RemoteMessage message) async {
@@ -66,11 +84,14 @@ class FcmCoreService {
 
     final notificationDetails = NotificationDetails(android: androidDetails);
 
+    final route = message.data['route'] ?? '';
+
     _flutterLocalNotificationsPlugin.show(
       message.hashCode,
       message.notification?.title ?? "No Title",
       message.notification?.body ?? "No Body",
       notificationDetails,
+      payload: route, // 👈 Pass route to notification
     );
   }
 
@@ -81,5 +102,22 @@ class FcmCoreService {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       showNotification(message);
     });
+
+    // 👇 When app is in background & user taps notification
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      final route = message.data['route'];
+      if (route != null && route.isNotEmpty) {
+        _router.push(route);
+      }
+    });
+
+    // 👇 When app launches from terminated state
+    final initialMessage = await _firebaseMessaging.getInitialMessage();
+    if (initialMessage != null) {
+      final route = initialMessage.data['route'];
+      if (route != null && route.isNotEmpty) {
+        _router.push(route);
+      }
+    }
   }
 }
