@@ -13,26 +13,19 @@ class GetStartedPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
-            Container(
-              height: 80,
-              width: 80,
-              decoration: const BoxDecoration(
-                color: Color(0xFF2D7FF9),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.menu_book_rounded,
-                color: Colors.white,
-                size: 40,
-              ),
+            Image.asset(
+              'assets/logo/lyceumai_logo.png',
+              width: 100,
+              height: 100,
+              fit: BoxFit.contain,
             ),
             const SizedBox(height: 24),
-            const Text(
+            Text(
               "Lyceum AI",
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: Colors.blue,
               ),
             ),
             const SizedBox(height: 12),

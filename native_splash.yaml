@@ -1,0 +1,13 @@
+flutter_native_splash:
+  ios: true
+  web: false
+  android: true
+
+  image: "assets/logo/lyceumai_logo.png"
+  branding: "assets/logo/lyceumai_branding.png"
+  background_image: "assets/logo/lyceumai_background.png"
+
+  android_12:
+    color: "#FFFDFD"
+    image: "assets/logo/lyceumai_logo_12.png"
+    branding: "assets/logo/lyceumai_branding_12.png"
