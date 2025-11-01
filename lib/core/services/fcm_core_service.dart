@@ -53,7 +53,7 @@ class FcmCoreService {
         ?.createNotificationChannel(_channel!);
 
     const androidSettings = AndroidInitializationSettings(
-      '@mipmap/ic_launcher',
+      '@mipmap/launcher_icon',
     );
     const initSettings = InitializationSettings(android: androidSettings);
 

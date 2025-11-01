@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:lyceumai/core/utils.dart';
@@ -125,11 +124,6 @@ class _ClassroomOverviewPageState extends State<ClassroomOverviewPage> {
                     ),
                   ),
                   const SizedBox(height: 100),
-                  SvgPicture.asset(
-                    'assets/class_room_placeholder.svg',
-                    height: 150,
-                  ),
-                  const SizedBox(height: 30),
                   const Text(
                     "Welcome to your Classroom!",
                     textAlign: TextAlign.center,
