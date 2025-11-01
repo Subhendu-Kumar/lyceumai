@@ -61,7 +61,7 @@ class _ClassroomMaterialsPageState extends State<ClassroomMaterialsPage> {
                     ),
                     child: Column(
                       children: [
-                        PdfMiniPreview(syllabusUrl: material.fileUrl),
+                        PdfMiniPreview(fileUrl: material.fileUrl),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,

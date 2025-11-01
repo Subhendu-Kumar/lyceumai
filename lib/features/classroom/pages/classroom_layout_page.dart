@@ -18,7 +18,7 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
   final List<String> _tabs = [
     '', // overview
     'assignments',
-    'syllabus',
+    // 'syllabus',
     'materials',
     'quizzes',
   ];
@@ -26,7 +26,7 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
   final Map<String, String> _tabTitles = {
     '': 'Overview',
     'assignments': 'Assignments',
-    'syllabus': 'Syllabus',
+    // 'syllabus': 'Syllabus',
     'materials': 'Materials',
     'quizzes': 'Quizzes',
   };
@@ -102,10 +102,10 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
             icon: Icon(Icons.assignment),
             label: "Assignments",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: "Syllabus",
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.menu_book),
+          //   label: "Syllabus",
+          // ),
           BottomNavigationBarItem(icon: Icon(Icons.folder), label: "Materials"),
           BottomNavigationBarItem(icon: Icon(Icons.quiz), label: "Quizzes"),
         ],

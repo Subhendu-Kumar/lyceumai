@@ -14,14 +14,15 @@ import 'package:lyceumai/features/meetings/pages/meetings_layout_page.dart';
 
 import 'package:lyceumai/features/classroom/pages/quizzes_page.dart';
 import 'package:lyceumai/features/classroom/cubit/quizzes_cubit.dart';
-import "package:lyceumai/features/classroom/pages/syllabus_page.dart";
+// import "package:lyceumai/features/classroom/pages/syllabus_page.dart";
 import 'package:lyceumai/features/classroom/cubit/classroom_cubit.dart';
 import 'package:lyceumai/features/classroom/cubit/materials_cubit.dart';
 import "package:lyceumai/features/classroom/pages/assignments_page.dart";
 import 'package:lyceumai/features/classroom/cubit/assignment_cubit.dart';
 import "package:lyceumai/features/classroom/pages/classroom_layout_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_overview_page.dart";
-import 'package:lyceumai/features/classroom/pages/classroom_materials_page.dart';
+// import 'package:lyceumai/features/classroom/pages/classroom_materials_page.dart';
+import 'package:lyceumai/features/classroom/pages/syllabus_and_materials_page.dart';
 
 import 'package:lyceumai/features/miscellaneous/pages/pdf_view_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/assignment_submission_view_page.dart';
@@ -104,18 +105,27 @@ class AppRouter {
                 return NoTransitionPage(child: AssignmentsPage(id: id));
               },
             ),
-            GoRoute(
-              path: '/class/:id/syllabus',
-              pageBuilder: (context, state) {
-                final id = state.pathParameters['id']!;
-                return NoTransitionPage(child: SyllabusPage(id: id));
-              },
-            ),
+            // GoRoute(
+            //   path: '/class/:id/syllabus',
+            //   pageBuilder: (context, state) {
+            //     final id = state.pathParameters['id']!;
+            //     return NoTransitionPage(child: SyllabusPage(id: id));
+            //   },
+            // ),
+            // GoRoute(
+            //   path: '/class/:id/materials',
+            //   pageBuilder: (context, state) {
+            //     final id = state.pathParameters['id']!;
+            //     return NoTransitionPage(child: ClassroomMaterialsPage(id: id));
+            //   },
+            // ),
             GoRoute(
               path: '/class/:id/materials',
               pageBuilder: (context, state) {
                 final id = state.pathParameters['id']!;
-                return NoTransitionPage(child: ClassroomMaterialsPage(id: id));
+                return NoTransitionPage(
+                  child: SyllabusAndMaterialsPage(id: id),
+                );
               },
             ),
             GoRoute(

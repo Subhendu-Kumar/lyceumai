@@ -65,7 +65,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
                       ),
                       child: Column(
                         children: [
-                          PdfMiniPreview(syllabusUrl: classroom.syllabusUrl),
+                          PdfMiniPreview(fileUrl: classroom.syllabusUrl),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
