@@ -1,7 +1,0 @@
-flutter_launcher_icons:
-  image_path: "assets/logo/lyceumai_logo_2.png"
-
-  android: "launcher_icon"
-
-  ios: true
-  remove_alpha_ios: true
