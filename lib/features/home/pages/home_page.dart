@@ -1,4 +1,3 @@
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,17 +66,13 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(16),
                   itemCount: 4,
                   itemBuilder: (context, index) {
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey[100]!,
-                      highlightColor: Colors.grey[50]!,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        margin: const EdgeInsets.only(bottom: 12),
-                        clipBehavior: Clip.antiAlias,
-                        child: Container(height: 160, color: Colors.grey[100]),
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
+                      margin: const EdgeInsets.only(bottom: 12),
+                      clipBehavior: Clip.antiAlias,
+                      child: Container(height: 160, color: Colors.grey[100]),
                     );
                   },
                 );

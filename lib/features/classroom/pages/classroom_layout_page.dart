@@ -14,19 +14,11 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
   int _currentIndex = 0;
   String _pageTitle = "Overview";
 
-  // Bottom nav destinations mapping
-  final List<String> _tabs = [
-    '', // overview
-    'assignments',
-    // 'syllabus',
-    'materials',
-    'quizzes',
-  ];
+  final List<String> _tabs = ['', 'assignments', 'materials', 'quizzes'];
 
   final Map<String, String> _tabTitles = {
     '': 'Overview',
     'assignments': 'Assignments',
-    // 'syllabus': 'Syllabus',
     'materials': 'Materials',
     'quizzes': 'Quizzes',
   };
@@ -102,10 +94,6 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
             icon: Icon(Icons.assignment),
             label: "Assignments",
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.menu_book),
-          //   label: "Syllabus",
-          // ),
           BottomNavigationBarItem(icon: Icon(Icons.folder), label: "Materials"),
           BottomNavigationBarItem(icon: Icon(Icons.quiz), label: "Quizzes"),
         ],

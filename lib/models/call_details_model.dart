@@ -59,7 +59,7 @@ class CallDetailsModel {
       meetingTime: map['meetingTime'] ?? "",
       description: map['description'] ?? "",
       recordings: List<CallRecModel>.from(
-        (map['recordings'] as List<int>).map<CallRecModel>(
+        (map['recordings'] as List<dynamic>).map<CallRecModel>(
           (x) => CallRecModel.fromMap(x as Map<String, dynamic>),
         ),
       ),

@@ -21,14 +21,14 @@ class _MeetingsLayoutPageState extends State<MeetingsLayoutPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text("Meetings for Class ${widget.classId}"),
+          title: Text("Meetings for ${widget.classId}"),
           bottom: const TabBar(
             indicatorColor: Colors.blue,
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.grey,
             tabs: [
-              Tab(icon: Icon(Icons.schedule), text: "Upcoming"),
-              Tab(icon: Icon(Icons.check_circle_outline), text: "Ended"),
+              Tab(text: "Upcoming"),
+              Tab(text: "Ended"),
             ],
           ),
         ),

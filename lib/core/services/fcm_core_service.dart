@@ -57,8 +57,6 @@ class FcmCoreService {
     );
     const initSettings = InitializationSettings(android: androidSettings);
 
-    // await _flutterLocalNotificationsPlugin.initialize(initSettings);
-
     await _flutterLocalNotificationsPlugin.initialize(
       initSettings,
       // 👇 When user taps on local notification
@@ -77,6 +75,7 @@ class FcmCoreService {
     final androidDetails = AndroidNotificationDetails(
       _channel!.id,
       _channel!.name,
+      icon: "@mipmap/launcher_icon",
       channelDescription: _channel!.description,
       importance: Importance.high,
       priority: Priority.high,
