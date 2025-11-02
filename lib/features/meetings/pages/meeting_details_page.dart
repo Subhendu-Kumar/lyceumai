@@ -1,3 +1,5 @@
+// lib/features/meetings/pages/meeting_details_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

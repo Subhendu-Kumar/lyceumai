@@ -1,3 +1,5 @@
+// lib/features/home/pages/join_class_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

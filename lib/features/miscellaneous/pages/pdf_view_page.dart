@@ -1,3 +1,5 @@
+// lib/features/miscellaneous/pages/pdf_view_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 

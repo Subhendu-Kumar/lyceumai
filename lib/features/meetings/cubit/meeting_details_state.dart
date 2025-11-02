@@ -1,3 +1,5 @@
+// lib/features/meetings/cubit/meeting_details_state.dart
+
 part of 'meeting_details_cubit.dart';
 
 @immutable

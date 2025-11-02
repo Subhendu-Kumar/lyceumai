@@ -1,3 +1,5 @@
+// lib/features/miscellaneous/widgets/assignment_detail_card.dart
+
 import 'package:flutter/material.dart';
 
 import 'package:lyceumai/core/utils.dart';

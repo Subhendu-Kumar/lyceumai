@@ -1,3 +1,5 @@
+// lib/features/auth/cubit/auth_cubit.dart
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,3 +1,5 @@
+// lib/features/classroom/pages/syllabus_and_materials_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lyceumai/features/classroom/widgets/class_material_card.dart';

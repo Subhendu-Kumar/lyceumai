@@ -1,3 +1,5 @@
+// lib/features/classroom/cubit/classroom_state.dart
+
 part of 'classroom_cubit.dart';
 
 @immutable

@@ -1,29 +1,43 @@
+// lib/app_router.dart
+
+// Flutter & Package imports
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// Home Pages
 import 'package:lyceumai/features/home/pages/home_page.dart';
 import 'package:lyceumai/features/home/pages/join_class_page.dart';
 
-import 'package:lyceumai/features/auth/pages/login_page.dart';
+// Auth Cubits
 import 'package:lyceumai/features/auth/cubit/auth_cubit.dart';
+
+// Auth Pages
+import 'package:lyceumai/features/auth/pages/login_page.dart';
 import 'package:lyceumai/features/auth/pages/signup_page.dart';
 import 'package:lyceumai/features/auth/pages/get_started_page.dart';
+
+// Meeting Cubits
+import 'package:lyceumai/features/meetings/cubit/meetings_cubit.dart';
 import 'package:lyceumai/features/meetings/cubit/meeting_details_cubit.dart';
 
-import 'package:lyceumai/features/meetings/cubit/meetings_cubit.dart';
+// Meeting Pages
 import 'package:lyceumai/features/meetings/pages/meeting_details_page.dart';
 import 'package:lyceumai/features/meetings/pages/meetings_layout_page.dart';
 
-import 'package:lyceumai/features/classroom/pages/quizzes_page.dart';
+// Classroom Cubits
 import 'package:lyceumai/features/classroom/cubit/quizzes_cubit.dart';
 import 'package:lyceumai/features/classroom/cubit/classroom_cubit.dart';
 import 'package:lyceumai/features/classroom/cubit/materials_cubit.dart';
-import "package:lyceumai/features/classroom/pages/assignments_page.dart";
 import 'package:lyceumai/features/classroom/cubit/assignment_cubit.dart';
+
+// Classroom Pages
+import 'package:lyceumai/features/classroom/pages/quizzes_page.dart';
+import "package:lyceumai/features/classroom/pages/assignments_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_layout_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_overview_page.dart";
 import 'package:lyceumai/features/classroom/pages/syllabus_and_materials_page.dart';
 
+// Miscellaneous Pages
 import 'package:lyceumai/features/miscellaneous/pages/pdf_view_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/assignment_submission_view_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/text_assignment_submission_page.dart';

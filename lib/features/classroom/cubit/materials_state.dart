@@ -1,3 +1,5 @@
+// lib/features/classroom/cubit/materials_state.dart
+
 part of 'materials_cubit.dart';
 
 @immutable

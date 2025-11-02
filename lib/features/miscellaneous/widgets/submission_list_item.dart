@@ -1,3 +1,5 @@
+// lib/features/miscellaneous/widgets/submission_list_item.dart
+
 import 'package:flutter/material.dart';
 
 import 'package:lyceumai/features/miscellaneous/widgets/submission_text_item.dart';

@@ -1,3 +1,5 @@
+// lib/features/classroom/widgets/class_material_card.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lyceumai/features/classroom/widgets/pdf_mini_preview.dart';

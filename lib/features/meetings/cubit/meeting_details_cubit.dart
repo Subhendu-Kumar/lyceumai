@@ -1,3 +1,5 @@
+// lib/features/meetings/cubit/meeting_details_cubit.dart
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

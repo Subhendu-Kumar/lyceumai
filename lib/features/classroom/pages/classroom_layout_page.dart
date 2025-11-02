@@ -1,3 +1,5 @@
+// lib/features/classroom/pages/classroom_layout_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
