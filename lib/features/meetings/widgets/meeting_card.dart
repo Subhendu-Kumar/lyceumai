@@ -16,7 +16,7 @@ class MeetingCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (type == "ended") {
-          context.push("/meeting/d/${call.meetId}");
+          context.push("/meeting/d/${call.meetId}", extra: {'type': type});
         } else {
           return;
         }

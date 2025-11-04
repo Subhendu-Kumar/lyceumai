@@ -23,6 +23,7 @@ import 'package:lyceumai/features/meetings/cubit/meeting_details_cubit.dart';
 // Meeting Pages
 import 'package:lyceumai/features/meetings/pages/meeting_details_page.dart';
 import 'package:lyceumai/features/meetings/pages/meetings_layout_page.dart';
+import 'package:lyceumai/features/meetings/pages/meet_rec_video_player_with_summary_and_transcript_view_page.dart';
 
 // Classroom Cubits
 import 'package:lyceumai/features/classroom/cubit/quizzes_cubit.dart';
@@ -42,6 +43,7 @@ import 'package:lyceumai/features/miscellaneous/pages/pdf_view_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/assignment_submission_view_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/text_assignment_submission_page.dart';
 import 'package:lyceumai/features/miscellaneous/pages/voice_assignment_submission_page.dart';
+import 'package:lyceumai/models/call_rec_model.dart';
 
 class AppRouter {
   static GoRouter router(AuthCubit authCubit) {
@@ -192,11 +194,23 @@ class AppRouter {
           path: "/meeting/d/:id",
           pageBuilder: (context, state) {
             final id = state.pathParameters["id"]!;
+            final extraData = state.extra as Map<String, String>?;
             return NoTransitionPage(
               child: BlocProvider(
                 create: (context) =>
                     MeetingDetailsCubit()..fetchMeetingDetails(id),
-                child: MeetingDetailsPage(id: id),
+                child: MeetingDetailsPage(id: id, type: extraData!['type']!),
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: "/meeting/rec/play",
+          pageBuilder: (context, state) {
+            final rec = state.extra as CallRecModel?;
+            return NoTransitionPage(
+              child: MeetRecVideoPlayerWithSummaryAndTranscriptViewPage(
+                recording: rec!,
               ),
             );
           },
