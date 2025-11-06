@@ -25,8 +25,6 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
     'quizzes': 'Quizzes',
   };
 
-  final List<String> _popUpMenuItems = ['meetings', 'peoples', 'settings'];
-
   void _onTap(int index) {
     setState(() => _currentIndex = index);
     final tab = _tabs[index];
@@ -48,30 +46,15 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
         title: Text(_pageTitle),
         backgroundColor: Colors.white,
         actions: [
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert, color: Colors.black),
-            color: Colors.white,
-            offset: const Offset(0, 40),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            onSelected: (value) {
-              switch (value) {
-                case 'meetings':
-                  context.push('/meetings/${widget.id}');
-                  break;
-                case 'peoples':
-                  break;
-                case 'settings':
-                  break;
-              }
+          IconButton(
+            icon: const Icon(Icons.video_chat, color: Colors.blue),
+            onPressed: () {
+              context.push('/meetings/${widget.id}');
             },
-            itemBuilder: (context) => [
-              ..._popUpMenuItems.map((item) {
-                String title = item[0].toUpperCase() + item.substring(1);
-                return PopupMenuItem(value: item, child: Text(title));
-              }),
-            ],
+          ),
+          IconButton(
+            icon: const Icon(Icons.people_alt, color: Colors.deepPurpleAccent),
+            onPressed: () {},
           ),
         ],
       ),
