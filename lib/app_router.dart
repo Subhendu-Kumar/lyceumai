@@ -37,6 +37,7 @@ import "package:lyceumai/features/classroom/pages/assignments_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_layout_page.dart";
 import "package:lyceumai/features/classroom/pages/classroom_overview_page.dart";
 import 'package:lyceumai/features/classroom/pages/syllabus_and_materials_page.dart';
+import 'package:lyceumai/features/miscellaneous/pages/chat_page.dart';
 
 // Miscellaneous Pages
 import 'package:lyceumai/features/miscellaneous/pages/pdf_view_page.dart';
@@ -213,6 +214,12 @@ class AppRouter {
                 recording: rec!,
               ),
             );
+          },
+        ),
+        GoRoute(
+          path: "/chat",
+          pageBuilder: (context, state) {
+            return NoTransitionPage(child: ChatPage());
           },
         ),
       ],

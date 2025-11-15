@@ -47,6 +47,12 @@ class _ClassroomLayoutPageState extends State<ClassroomLayoutPage> {
         backgroundColor: Colors.white,
         actions: [
           IconButton(
+            icon: const Icon(Icons.chat, color: Colors.green),
+            onPressed: () {
+              context.push('/chat');
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.video_chat, color: Colors.blue),
             onPressed: () {
               context.push('/meetings/${widget.id}');
