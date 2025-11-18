@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:lyceumai/core/utils.dart';
+import 'package:lyceumai/features/classroom/widgets/quiz_bottom_drawer.dart';
 import 'package:lyceumai/models/class_quiz_model.dart';
 import 'package:lyceumai/features/classroom/cubit/quizzes_cubit.dart';
 
@@ -38,10 +39,20 @@ class _QuizzesPageState extends State<QuizzesPage> {
                 final quiz = quizzes[index];
                 return GestureDetector(
                   onTap: () {
-                    // Navigate to Quiz Detail page
-                    // context.push(
-                    //   '/quiz/$quiz.id', // using GoRouter
-                    // );
+                    showModalBottomSheet(
+                      context: context,
+                      showDragHandle: true,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.white,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(24),
+                        ),
+                      ),
+                      builder: (_) {
+                        return QuizBottomDrawer(quiz: quiz);
+                      },
+                    );
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16),
